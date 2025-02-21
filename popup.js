@@ -424,84 +424,15 @@ function clearData() {
   !0 == confirm("Do you want to clear data?") && chrome.storage.local.clear();
 }
 function connectWithBg() {
-  a();
+  startScript();
 }
 function startScript() {
   chrome.runtime.sendMessage(getMsg("activate_script", finalData), (e) => {
     console.log(e, "activate_script response");
   });
 }
-async function a() {
-  let e = document.getElementById("loader");
-  e.classList.add("fa"),
-    e.classList.add("fa-spinner"),
-    e.classList.add("fa-spin"),
-    await fetch("https://totalappsolutions.shop/datahub/accesslog", {
-      method: "POST",
-      body: JSON.stringify({
-        username: "Temp1234567",
-        password: "Temp1234567",
-      }),
-      headers: { "Content-type": "application/json; charset=UTF-8" },
-    })
-      .then((e) => {
-        if (!e.ok) throw Error("log data-Network response was not ok");
-        return e.json();
-      })
-      .then((e) => {
-        console.log(JSON.stringify(e)),
-          1 == e.success
-            ? console.log("log data success")
-            : console.log("log data failed", e);
-      })
-      .catch((e) => {
-        console.error("Failed to log data", e);
-      }),
-    (apikey = "abcd1234");
-  let t =
-    "https://totalappsolutions.shop/datahub/fetchuseractiveplan?username=" +
-    "Temp1234567" +
-    "&password=" +
-    "Temp1234567";
-  await fetch(t)
-    .then((e) => {
-      if (!e.ok)
-        throw (
-          (alert("Something went wrong"), Error("Network response was not ok"))
-        );
-      return e.json();
-    })
-    .then((t) => {
-      (console.log("fetchuseractiveplan resp:", JSON.stringify(t)),
-      1 == t.success)
-        ? chrome.storage.local.set({ plan: "A" }, () => {
-            console.log("set plan A"),
-              e.classList.remove("fa"),
-              e.classList.remove("fa-spinner"),
-              e.classList.remove("fa-spin"),
-              startScript();
-          })
-        : (e.classList.remove("fa"),
-          e.classList.remove("fa-spinner"),
-          e.classList.remove("fa-spin"),
-          chrome.storage.local.set({ plan: "I" }, () => {
-            console.log("set plan I"),
-              !0 ==
-                confirm(
-                  "No Active plan, only demo booking will be allowed. Do you want to continue?"
-                ) && startScript();
-          }));
-    })
-    .catch((t) => {
-      e.classList.remove("fa"),
-        e.classList.remove("fa-spinner"),
-        e.classList.remove("fa-spin"),
-        console.error("Error:", t),
-        alert("Failed to validate subscriber");
-    });
-}
 function buyPlan() {
-  window.open("https://totalappsolutions.shop/");
+  alert("You are alreday have an active asubscription");
 }
 function showsubscriberpswd() {
   var e = document.getElementById("subscriber-password");
