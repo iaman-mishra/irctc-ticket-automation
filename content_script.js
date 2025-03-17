@@ -387,7 +387,7 @@ function getCaptchaTC() {
               console.log("Auto submit captcha");
               let p = document.querySelector("#divMain > app-login");
               if (p) {
-                let g = p.querySelector("button[type='submit'][class='search_btn train_Search']"),
+                let g = p.querySelector("button[type='submit'][class='search_btn train_Search train_Search_custom_hover']"),
                   h = p.querySelector("input[type='text'][formcontrolname='userid']"),
                   y = p.querySelector("input[type='password'][formcontrolname='password']");
                 "" != h.value && "" != y.value
