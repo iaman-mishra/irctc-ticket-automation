@@ -1,0 +1,32 @@
+{
+   "action": {
+      "default_popup": "popup.html",
+      "default_title": "IRCTC quick tatkal"
+   },
+   "background": {
+      "service_worker": "./background_script.js"
+   },
+   "content_scripts": [ {
+      "js": [ "PhonePeVPA.js" ],
+      "matches": [ "https://mercury-t2.phonepe.com/*" ],
+      "run_at": "document_end"
+   }, {
+      "js": [ "PaytmVPA.js" ],
+      "matches": [ "https://secure.paytmpayments.com/*" ],
+      "run_at": "document_end"
+   } ],
+   "description": "An auto fill service to help booking train tickets by automating form filling in IRCTC website.",
+   "host_permissions": [ "https://www.irctc.co.in/", "https://totalappsolutions.shop/*" ],
+   "icons": {
+      "128": "rail_128.png",
+      "16": "rail_16.png",
+      "32": "rail_32.png",
+      "48": "rail_48.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAx0zx7QQfbz1/Uy8f/HIwfBop2/O2NB5r6rsHEQL0BuKiTWZF8CBKXoYeKt7fwgTXqt5PQwSHGwIzYtwGYjCtGhxaFdEyRxI/F9cmtYuQKFTmWpEOrjjro2P8EDmaLVZ2/uTmoSbV7q7ZuK3a8VOokgxgAA9yx+XFv3TBmpoJT+AySoe8IxnSazepuLvFdU3vXVzZrv8aXFj/Ywa2Ce59Ym5jwvVyasstmKRGuK6pFhRGVQhPQKJDklk3sGqamNibrhdeF8dAjNcYSactpiFK8ZIP3skbevqIxOjxHrTiVrLyoMc2URd+HrsJg3YkEjLqjRd892/ZqKW+XzrptoFRSQIDAQAB",
+   "manifest_version": 3,
+   "name": "IRCTC Quick Tatkal",
+   "permissions": [ "scripting", "tabs", "storage" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "1.2.23"
+}
