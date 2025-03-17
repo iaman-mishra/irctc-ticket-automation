@@ -12,64 +12,48 @@ function autocompleteSourcDstTrain(e, t, r) {
   function s(e) {
     if (!e) return !1;
     (function e(t) {
-      for (var r = 0; r < t.length; r++)
-        t[r].classList.remove("autocomplete-active");
+      for (var r = 0; r < t.length; r++) t[r].classList.remove("autocomplete-active");
     })(e),
       n >= e.length && (n = 0),
       n < 0 && (n = e.length - 1),
       e[n].classList.add("autocomplete-active");
   }
-  function i(t) {
-    for (
-      var r = document.getElementsByClassName("autocomplete-items"), n = 0;
-      n < r.length;
-      n++
-    )
+  function o(t) {
+    for (var r = document.getElementsByClassName("autocomplete-items"), n = 0; n < r.length; n++)
       t != r[n] && t != e && r[n].parentNode.removeChild(r[n]);
   }
   e.addEventListener("input", function (s) {
-    var l,
-      o,
+    var i,
+      l,
       c,
       d = this.value;
-    if ((i(), !d)) return !1;
+    if ((o(), !d)) return !1;
     for (
       n = -1,
-        (l = document.createElement("DIV")).setAttribute(
-          "id",
-          this.id + "autocomplete-list"
-        ),
-        l.setAttribute("class", "autocomplete-items"),
-        this.parentNode.appendChild(l),
+        (i = document.createElement("DIV")).setAttribute("id", this.id + "autocomplete-list"),
+        i.setAttribute("class", "autocomplete-items"),
+        this.parentNode.appendChild(i),
         c = 0;
       c < t.length;
       c++
     )
       t[c].toUpperCase().includes(d.toUpperCase()) &&
-        (((o = document.createElement("DIV")).innerHTML =
-          "<strong>" + t[c].substr(0, d.length) + "</strong>"),
-        (o.innerHTML += t[c].substr(d.length)),
-        (o.innerHTML += "<input type='hidden' value='" + t[c] + "'>"),
-        o.addEventListener("click", function (t) {
+        (((l = document.createElement("DIV")).innerHTML = "<strong>" + t[c].substr(0, d.length) + "</strong>"),
+        (l.innerHTML += t[c].substr(d.length)),
+        (l.innerHTML += "<input type='hidden' value='" + t[c] + "'>"),
+        l.addEventListener("click", function (t) {
           if (
             ((e.value = this.getElementsByTagName("input")[0].value),
-            "SOURCE" == r &&
-              (finalData.journey_details.from =
-                this.getElementsByTagName("input")[0].value),
-            "DEST" == r &&
-              (finalData.journey_details.destination =
-                this.getElementsByTagName("input")[0].value),
+            "SOURCE" == r && (finalData.journey_details.from = this.getElementsByTagName("input")[0].value),
+            "DEST" == r && (finalData.journey_details.destination = this.getElementsByTagName("input")[0].value),
             "TRAIN" == r)
           ) {
             let n = this.getElementsByTagName("input")[0].value;
             finalData.journey_details["train-no"] = n.trim();
           }
-          "BOARDING" == r &&
-            (finalData.journey_details.boarding =
-              this.getElementsByTagName("input")[0].value),
-            i();
+          "BOARDING" == r && (finalData.journey_details.boarding = this.getElementsByTagName("input")[0].value), o();
         }),
-        l.appendChild(o));
+        i.appendChild(l));
   }),
     e.addEventListener("keydown", function (e) {
       var t = document.getElementById(this.id + "autocomplete-list");
@@ -78,11 +62,10 @@ function autocompleteSourcDstTrain(e, t, r) {
           ? (n++, s(t))
           : 38 == e.keyCode
           ? (n--, s(t))
-          : 13 == e.keyCode &&
-            (e.preventDefault(), n > -1 && t && t[n].click());
+          : 13 == e.keyCode && (e.preventDefault(), n > -1 && t && t[n].click());
     }),
     document.addEventListener("click", function (e) {
-      i(e.target);
+      o(e.target);
     });
 }
 const stationData = [],
@@ -98,8 +81,7 @@ function setIRCTCUsername(e) {
     console.log("data-update", finalData);
 }
 function setIRCTCPassword(e) {
-  (finalData.irctc_credentials.password = e.target.value),
-    console.log("data-update", finalData);
+  (finalData.irctc_credentials.password = e.target.value), console.log("data-update", finalData);
 }
 function setSubsUsername(e) {
   finalData.subs_credentials || (finalData.subs_credentials = {}),
@@ -107,8 +89,7 @@ function setSubsUsername(e) {
     console.log("data-update", finalData);
 }
 function setSubsPassword(e) {
-  (finalData.subs_credentials.password = e.target.value),
-    console.log("data-update", finalData);
+  (finalData.subs_credentials.password = e.target.value), console.log("data-update", finalData);
 }
 function setFromStation(e) {
   (finalData.journey_details.from = e.target.value.toUpperCase()),
@@ -116,8 +97,7 @@ function setFromStation(e) {
 }
 function setDestinationStation(e) {
   (finalData.journey_details.destination = e.target.value.toUpperCase()),
-    (document.querySelector("#destination-station-input").value =
-      e.target.value);
+    (document.querySelector("#destination-station-input").value = e.target.value);
 }
 function setBoardingStation(e) {
   (finalData.journey_details.boarding = e.target.value.toUpperCase()),
@@ -128,8 +108,7 @@ function setJourneyClass(e) {
     (document.querySelector("#journey-class-input").value = e.target.value);
 }
 function setQuota(e) {
-  (finalData.journey_details.quota = e.target.value),
-    (document.querySelector("#quota-input").value = e.target.value);
+  (finalData.journey_details.quota = e.target.value), (document.querySelector("#quota-input").value = e.target.value);
 }
 function journeyDateChanged(e) {
   finalData.journey_details.date = e.target.value;
@@ -143,30 +122,25 @@ function setPassengerDetails(e, t, r) {
 }
 function setOtherPreferences(e) {
   finalData.other_preferences || (finalData.other_preferences = {}),
-    (finalData.other_preferences[e.target.name] =
-      "checkbox" === e.target.type ? e.target.checked : e.target.value);
+    (finalData.other_preferences[e.target.name] = "checkbox" === e.target.type ? e.target.checked : e.target.value);
 }
 function setAutoCaptcha(e) {
   finalData.other_preferences || (finalData.other_preferences = {}),
-    (finalData.other_preferences[e.target.name] =
-      "checkbox" === e.target.type ? e.target.checked : e.target.value);
+    (finalData.other_preferences[e.target.name] = "checkbox" === e.target.type ? e.target.checked : e.target.value);
 }
 function setOtherPreferencesVpa(e) {
-  finalData.vpa || (finalData.vpa = {}),
-    (finalData.vpa[e.target.name] = e.target.value);
+  finalData.vpa || (finalData.vpa = {}), (finalData.vpa[e.target.name] = e.target.value);
 }
 function setpaymentMethod(e) {
   finalData.other_preferences || (finalData.other_preferences = {}),
     (finalData.other_preferences.paymentmethod = e.target.value),
     "UPIID" == e.target.value
-      ? ((document.getElementById("vpa").hidden = !1),
-        (document.getElementById("carddetails").hidden = !0))
+      ? ((document.getElementById("vpa").hidden = !1), (document.getElementById("carddetails").hidden = !0))
       : ((document.getElementById("vpa").hidden = !0),
         (document.getElementById("carddetails").hidden = !0),
         (finalData.vpa.vpa = "")),
     ("DBTCRD" == e.target.value || "DBTCRDI" == e.target.value) &&
-      ((document.getElementById("vpa").hidden = !0),
-      (document.getElementById("carddetails").hidden = !1));
+      ((document.getElementById("vpa").hidden = !0), (document.getElementById("carddetails").hidden = !1));
 }
 function setCaptchaSubmitMode(e) {
   finalData.other_preferences || (finalData.other_preferences = {}),
@@ -174,14 +148,10 @@ function setCaptchaSubmitMode(e) {
 }
 function setCardDetails(e) {
   finalData.other_preferences || (finalData.other_preferences = {}),
-    "cardnumber" == e.target.name &&
-      (finalData.other_preferences[e.target.name] = e.target.value),
-    "cardexpiry" == e.target.name &&
-      (finalData.other_preferences[e.target.name] = e.target.value),
-    "cardcvv" == e.target.name &&
-      (finalData.other_preferences[e.target.name] = e.target.value),
-    "cardholder" == e.target.name &&
-      (finalData.other_preferences[e.target.name] = e.target.value);
+    "cardnumber" == e.target.name && (finalData.other_preferences[e.target.name] = e.target.value),
+    "cardexpiry" == e.target.name && (finalData.other_preferences[e.target.name] = e.target.value),
+    "cardcvv" == e.target.name && (finalData.other_preferences[e.target.name] = e.target.value),
+    "cardholder" == e.target.name && (finalData.other_preferences[e.target.name] = e.target.value);
 }
 function setOtherPreferencesbooktime(e) {
   finalData.other_preferences || (finalData.other_preferences = {}),
@@ -197,18 +167,15 @@ function setMobileNumber(e) {
 }
 function setTravelPreferences(e) {
   finalData.travel_preferences || (finalData.travel_preferences = {}),
-    (finalData.travel_preferences[e.target.name] =
-      "checkbox" === e.target.type ? e.target.checked : e.target.value);
+    (finalData.travel_preferences[e.target.name] = "checkbox" === e.target.type ? e.target.checked : e.target.value);
 }
 function setAvailabilyCheck(e) {
   finalData.travel_preferences || (finalData.travel_preferences = {}),
-    (finalData.travel_preferences[e.target.name] =
-      "checkbox" === e.target.type ? e.target.checked : e.target.value);
+    (finalData.travel_preferences[e.target.name] = "checkbox" === e.target.type ? e.target.checked : e.target.value);
 }
 function setIrctcWallet(e) {
   finalData.other_preferences || (finalData.other_preferences = {}),
-    (finalData.other_preferences[e.target.name] =
-      "checkbox" === e.target.type ? e.target.checked : e.target.value);
+    (finalData.other_preferences[e.target.name] = "checkbox" === e.target.type ? e.target.checked : e.target.value);
 }
 function setTokenString(e) {
   finalData.other_preferences || (finalData.other_preferences = {}),
@@ -234,61 +201,43 @@ function modifyUserData() {
           food: e.food ?? "D",
         })) ?? []),
     void 0 == finalData.other_preferences.slbooktime &&
-      (finalData.other_preferences.slbooktime =
-        document.getElementById("slbooktime").value),
+      (finalData.other_preferences.slbooktime = document.getElementById("slbooktime").value),
     void 0 == finalData.other_preferences.acbooktime &&
-      (finalData.other_preferences.acbooktime =
-        document.getElementById("acbooktime").value),
+      (finalData.other_preferences.acbooktime = document.getElementById("acbooktime").value),
+    void 0 == finalData.other_preferences.gnbooktime &&
+      (finalData.other_preferences.gnbooktime = document.getElementById("gnbooktime").value),
     void 0 == finalData.journey_details.class &&
-      (finalData.journey_details.class = document.getElementById(
-        "journey-class-input"
-      ).value),
+      (finalData.journey_details.class = document.getElementById("journey-class-input").value),
     void 0 == finalData.journey_details.quota &&
-      (finalData.journey_details.quota =
-        document.getElementById("quota-input").value),
-    ("TQ" === finalData.journey_details.quota ||
-      "PT" === finalData.journey_details.quota) &&
+      (finalData.journey_details.quota = document.getElementById("quota-input").value),
+    ("TQ" === finalData.journey_details.quota || "PT" === finalData.journey_details.quota) &&
       finalData.passenger_details.length > 4)
   ) {
     alert("For tatkal quota Maximum 4 passengers allowed.");
     return;
   }
-  void 0 == finalData.journey_details.boarding &&
-    (finalData.journey_details.boarding = ""),
-    "" == document.getElementById("boarding-station-input").value &&
-      (finalData.journey_details.boarding = ""),
-    void 0 == finalData.other_preferences.tokenString &&
-      (finalData.other_preferences.tokenString = ""),
-    void 0 == finalData.other_preferences.projectId &&
-      (finalData.other_preferences.projectId = ""),
-    void 0 == finalData.other_preferences.mobileNumber &&
-      (finalData.other_preferences.mobileNumber = ""),
+  void 0 == finalData.journey_details.boarding && (finalData.journey_details.boarding = ""),
+    "" == document.getElementById("boarding-station-input").value && (finalData.journey_details.boarding = ""),
+    void 0 == finalData.other_preferences.tokenString && (finalData.other_preferences.tokenString = ""),
+    void 0 == finalData.other_preferences.projectId && (finalData.other_preferences.projectId = ""),
+    void 0 == finalData.other_preferences.mobileNumber && (finalData.other_preferences.mobileNumber = ""),
     void 0 == finalData.other_preferences.paymentmethod &&
-      (finalData.other_preferences.paymentmethod =
-        document.getElementById("paymentMethod").value),
+      (finalData.other_preferences.paymentmethod = document.getElementById("paymentMethod").value),
     void 0 == finalData.other_preferences.CaptchaSubmitMode &&
-      (finalData.other_preferences.CaptchaSubmitMode =
-        document.getElementById("CaptchaSubmitMode").value),
+      (finalData.other_preferences.CaptchaSubmitMode = document.getElementById("CaptchaSubmitMode").value),
     void 0 == finalData.other_preferences.cardnumber &&
-      (finalData.other_preferences.cardnumber =
-        document.getElementById("cardnumber").value),
+      (finalData.other_preferences.cardnumber = document.getElementById("cardnumber").value),
     void 0 == finalData.other_preferences.cardexpiry &&
-      (finalData.other_preferences.cardexpiry =
-        document.getElementById("cardexpiry").value),
+      (finalData.other_preferences.cardexpiry = document.getElementById("cardexpiry").value),
     void 0 == finalData.other_preferences.cardcvv &&
-      (finalData.other_preferences.cardcvv =
-        document.getElementById("cardcvv").value),
+      (finalData.other_preferences.cardcvv = document.getElementById("cardcvv").value),
     void 0 == finalData.other_preferences.cardholder &&
-      (finalData.other_preferences.cardholder =
-        document.getElementById("cardholder").value),
+      (finalData.other_preferences.cardholder = document.getElementById("cardholder").value),
     void 0 == finalData.other_preferences.cardtype &&
-      (finalData.other_preferences.cardtype =
-        document.getElementById("cardtype").value),
-    void 0 == finalData.travel_preferences.AvailabilityCheck &&
-      (finalData.travel_preferences.AvailabilityCheck = "A"),
+      (finalData.other_preferences.cardtype = document.getElementById("cardtype").value),
+    void 0 == finalData.travel_preferences.AvailabilityCheck && (finalData.travel_preferences.AvailabilityCheck = "A"),
     void 0 == finalData.journey_details["train-no"] &&
-      (console.log("Set default train nr."),
-      (finalData.journey_details["train-no"] = "00000- DEFAULT")),
+      (console.log("Set default train nr."), (finalData.journey_details["train-no"] = "00000- DEFAULT")),
     console.log("after modifyUserData"),
     console.log(finalData),
     chrome.storage.local.set(finalData),
@@ -296,48 +245,28 @@ function modifyUserData() {
 }
 function loadUserData() {
   chrome.storage.local.get(null, (e) => {
-    if (
-      (console.log("loadUserData"), console.log(e), 0 !== Object.keys(e).length)
-    ) {
-      (document.querySelector("#irctc-login").value =
-        e.irctc_credentials.user_name),
-        (document.querySelector("#irctc-password").value =
-          e.irctc_credentials.password),
-        (document.querySelector("#subscriber-username").value =
-          e.subs_credentials.user_name),
-        (document.querySelector("#subscriber-password").value =
-          e.subs_credentials.password),
-        (document.querySelector("#from-station-input").value =
-          e.journey_details.from),
-        (document.querySelector("#destination-station-input").value =
-          e.journey_details.destination),
-        (document.querySelector("#boarding-station-input").value =
-          e.journey_details.boarding),
-        (document.querySelector("#journey-date").value =
-          e.journey_details.date),
-        (document.querySelector("#journey-class-input").value =
-          e.journey_details.class),
-        (document.querySelector("#quota-input").value =
-          e.journey_details.quota),
-        (document.querySelector(
-          "#train-no"
-        ).value = `${e.journey_details["train-no"]}`),
+    if ((console.log("loadUserData"), console.log(e), 0 !== Object.keys(e).length)) {
+      (document.querySelector("#irctc-login").value = e.irctc_credentials.user_name),
+        (document.querySelector("#irctc-password").value = e.irctc_credentials.password),
+        (document.querySelector("#subscriber-username").value = e.subs_credentials.user_name),
+        (document.querySelector("#subscriber-password").value = e.subs_credentials.password),
+        (document.querySelector("#from-station-input").value = e.journey_details.from),
+        (document.querySelector("#destination-station-input").value = e.journey_details.destination),
+        (document.querySelector("#boarding-station-input").value = e.journey_details.boarding),
+        (document.querySelector("#journey-date").value = e.journey_details.date),
+        (document.querySelector("#journey-class-input").value = e.journey_details.class),
+        (document.querySelector("#quota-input").value = e.journey_details.quota),
+        (document.querySelector("#train-no").value = `${e.journey_details["train-no"]}`),
         e.passenger_details.forEach((e, t) => {
-          (document.querySelector(`#passenger-name-${t + 1}`).value =
-            e.name ?? ""),
+          (document.querySelector(`#passenger-name-${t + 1}`).value = e.name ?? ""),
             (document.querySelector(`#age-${t + 1}`).value = e.age ?? ""),
-            (document.querySelector(`#passenger-gender-${t + 1}`).value =
-              e.gender ?? "M"),
-            (document.querySelector(`#passenger-berth-${t + 1}`).value =
-              e.berth ?? ""),
-            (document.querySelector(`#passenger-food-${t + 1}`).value =
-              e.food ?? "");
+            (document.querySelector(`#passenger-gender-${t + 1}`).value = e.gender ?? "M"),
+            (document.querySelector(`#passenger-berth-${t + 1}`).value = e.berth ?? ""),
+            (document.querySelector(`#passenger-food-${t + 1}`).value = e.food ?? "");
         }),
         e.travel_preferences?.travelInsuranceOpted &&
           (document.querySelector(
-            `#travelInsuranceOpted-${
-              e.travel_preferences?.travelInsuranceOpted === "yes" ? 1 : 2
-            }`
+            `#travelInsuranceOpted-${e.travel_preferences?.travelInsuranceOpted === "yes" ? 1 : 2}`
           ).checked = !0);
       try {
         e.travel_preferences?.AvailabilityCheck
@@ -352,57 +281,43 @@ function loadUserData() {
                   : 1
               }`
             ).checked = !0)
-          : (console.log(
-              "Load user data - set availability A - if not defined"
-            ),
-            chrome.storage.local.set(
-              { travel_preferences: { AvailabilityCheck: "A" } },
-              () => {
-                console.log("set AvailabilityCheck A");
-              }
-            ));
+          : (console.log("Load user data - set availability A - if not defined"),
+            chrome.storage.local.set({ travel_preferences: { AvailabilityCheck: "A" } }, () => {
+              console.log("set AvailabilityCheck A");
+            }));
       } catch {
         console.log("error getting availability check");
       }
       Object.keys(e.other_preferences).length > 0 &&
-        ((document.querySelector("#autoUpgradation").checked =
-          e.other_preferences.autoUpgradation ?? !1),
-        (document.querySelector("#confirmberths").checked =
-          e.other_preferences.confirmberths ?? !1),
-        (document.querySelector("#acbooktime").value =
-          e.other_preferences.acbooktime),
-        (document.querySelector("#slbooktime").value =
-          e.other_preferences.slbooktime),
-        (document.querySelector("#mobileNumber").value =
-          e.other_preferences.mobileNumber),
-        (document.querySelector("#paymentmethod").value =
-          e.other_preferences.paymentmethod),
-        (document.querySelector("#CaptchaSubmitMode").value =
-          e.other_preferences.CaptchaSubmitMode),
-        (document.querySelector("#autoCaptcha").checked =
-          e.other_preferences.autoCaptcha ?? !1),
-        (document.querySelector("#tokenString").value =
-          e.other_preferences.tokenString),
-        (document.querySelector("#projectId").value =
-          e.other_preferences.projectId)),
+        ((document.querySelector("#autoUpgradation").checked = e.other_preferences.autoUpgradation ?? !1),
+        (document.querySelector("#confirmberths").checked = e.other_preferences.confirmberths ?? !1),
+        (document.querySelector("#acbooktime").value = e.other_preferences.acbooktime),
+        (document.querySelector("#slbooktime").value = e.other_preferences.slbooktime),
+        e.other_preferences.hasOwnProperty("gnbooktime")
+          ? (document.querySelector("#gnbooktime").value = e.other_preferences.gnbooktime)
+          : (console.log("Load user data - set GN book time - if not defined"),
+            chrome.storage.local.set({ other_preferences: { gnbooktime: "07:59:59" } }, () => {
+              console.log("set gnbooktime");
+            }),
+            (document.querySelector("#gnbooktime").value = "07:59:59")),
+        (document.querySelector("#mobileNumber").value = e.other_preferences.mobileNumber),
+        (document.querySelector("#paymentmethod").value = e.other_preferences.paymentmethod),
+        (document.querySelector("#CaptchaSubmitMode").value = e.other_preferences.CaptchaSubmitMode),
+        (document.querySelector("#autoCaptcha").checked = e.other_preferences.autoCaptcha ?? !1),
+        (document.querySelector("#tokenString").value = e.other_preferences.tokenString),
+        (document.querySelector("#projectId").value = e.other_preferences.projectId)),
         Object.keys(e.vpa).length > 0 &&
           "" !== e.vpa.vpa &&
           (console.log("load vpa", e.vpa.vpa),
           (document.querySelector("#vpa").hidden = !1),
           (document.querySelector("#vpa").value = e.vpa.vpa)),
-        ("DBTCRD" == e.other_preferences.paymentmethod ||
-          "DBTCRDI" == e.other_preferences.paymentmethod) &&
+        ("DBTCRD" == e.other_preferences.paymentmethod || "DBTCRDI" == e.other_preferences.paymentmethod) &&
           (document.getElementById("carddetails").hidden = !1),
-        (document.querySelector("#cardnumber").value =
-          e.other_preferences.cardnumber),
-        (document.querySelector("#cardexpiry").value =
-          e.other_preferences.cardexpiry),
-        (document.querySelector("#cardcvv").value =
-          e.other_preferences.cardcvv),
-        (document.querySelector("#cardholder").value =
-          e.other_preferences.cardholder),
-        (document.querySelector("#cardtype").value =
-          e.other_preferences.cardtype),
+        (document.querySelector("#cardnumber").value = e.other_preferences.cardnumber),
+        (document.querySelector("#cardexpiry").value = e.other_preferences.cardexpiry),
+        (document.querySelector("#cardcvv").value = e.other_preferences.cardcvv),
+        (document.querySelector("#cardholder").value = e.other_preferences.cardholder),
+        (document.querySelector("#cardtype").value = e.other_preferences.cardtype),
         (finalData = e);
     }
   });
@@ -431,6 +346,7 @@ function startScript() {
     console.log(e, "activate_script response");
   });
 }
+
 function buyPlan() {
   alert("You are alreday have an active asubscription");
 }
@@ -447,151 +363,66 @@ fetch("stationlist.json")
   .then((e) => {
     for (let t in (stationData.push(...e), stationData))
       stationList.push(stationData[t].name + " - " + stationData[t].code);
-    autocompleteSourcDstTrain(
-      document.getElementById("from-station-input"),
-      stationList,
-      "SOURCE"
-    ),
-      autocompleteSourcDstTrain(
-        document.getElementById("destination-station-input"),
-        stationList,
-        "DEST"
-      ),
-      autocompleteSourcDstTrain(
-        document.getElementById("boarding-station-input"),
-        stationList,
-        "BOARDING"
-      );
+    autocompleteSourcDstTrain(document.getElementById("from-station-input"), stationList, "SOURCE"),
+      autocompleteSourcDstTrain(document.getElementById("destination-station-input"), stationList, "DEST"),
+      autocompleteSourcDstTrain(document.getElementById("boarding-station-input"), stationList, "BOARDING");
   }),
   fetchTrainData().then((e) => {
     autocompleteSourcDstTrain(document.getElementById("train-no"), e, "TRAIN");
   }),
   window.addEventListener("load", () => {
     loadUserData(),
-      document
-        .querySelector("#irctc-login")
-        .addEventListener("change", setIRCTCUsername),
-      document
-        .querySelector("#irctc-password")
-        .addEventListener("change", setIRCTCPassword),
-      document
-        .querySelector("#subscriber-username")
-        .addEventListener("change", setSubsUsername),
-      document
-        .querySelector("#subscriber-password")
-        .addEventListener("change", setSubsPassword),
-      document
-        .querySelector("#journey-date")
-        .addEventListener("change", journeyDateChanged),
-      document
-        .querySelector("#journey-class-input")
-        .addEventListener("change", setJourneyClass),
-      document
-        .querySelector("#quota-input")
-        .addEventListener("change", setQuota);
+      document.querySelector("#irctc-login").addEventListener("change", setIRCTCUsername),
+      document.querySelector("#irctc-password").addEventListener("change", setIRCTCPassword),
+      document.querySelector("#subscriber-username").addEventListener("change", setSubsUsername),
+      document.querySelector("#subscriber-password").addEventListener("change", setSubsPassword),
+      document.querySelector("#journey-date").addEventListener("change", journeyDateChanged),
+      document.querySelector("#journey-class-input").addEventListener("change", setJourneyClass),
+      document.querySelector("#quota-input").addEventListener("change", setQuota);
     for (let e = 0; e < 6; e++)
       document
         .querySelector(`#passenger-name-${e + 1}`)
-        .addEventListener("change", (t) =>
-          setPassengerDetails(t, e, "passenger")
-        ),
+        .addEventListener("change", (t) => setPassengerDetails(t, e, "passenger")),
         document
           .querySelector(`#age-${e + 1}`)
-          .addEventListener("change", (t) =>
-            setPassengerDetails(t, e, "passenger")
-          ),
+          .addEventListener("change", (t) => setPassengerDetails(t, e, "passenger")),
         document
           .querySelector(`#passenger-gender-${e + 1}`)
-          .addEventListener("change", (t) =>
-            setPassengerDetails(t, e, "passenger")
-          ),
+          .addEventListener("change", (t) => setPassengerDetails(t, e, "passenger")),
         document
           .querySelector(`#passenger-berth-${e + 1}`)
-          .addEventListener("change", (t) =>
-            setPassengerDetails(t, e, "passenger")
-          ),
+          .addEventListener("change", (t) => setPassengerDetails(t, e, "passenger")),
         document
           .querySelector(`#passenger-food-${e + 1}`)
-          .addEventListener("change", (t) =>
-            setPassengerDetails(t, e, "passenger")
-          );
-    document
-      .querySelector("#autoUpgradation")
-      .addEventListener("change", setOtherPreferences),
-      document
-        .querySelector("#autoCaptcha")
-        .addEventListener("change", setAutoCaptcha),
-      document
-        .querySelector("#confirmberths")
-        .addEventListener("change", setOtherPreferences),
-      document
-        .querySelector("#vpa")
-        .addEventListener("change", setOtherPreferencesVpa),
-      document
-        .querySelector("#cardnumber")
-        .addEventListener("change", setCardDetails),
-      document
-        .querySelector("#cardexpiry")
-        .addEventListener("change", setCardDetails),
-      document
-        .querySelector("#cardcvv")
-        .addEventListener("change", setCardDetails),
-      document
-        .querySelector("#cardholder")
-        .addEventListener("change", setCardDetails),
-      document
-        .querySelector("#paymentMethod")
-        .addEventListener("change", setpaymentMethod),
-      document
-        .querySelector("#CaptchaSubmitMode")
-        .addEventListener("change", setCaptchaSubmitMode),
-      document
-        .querySelector("#cardtype")
-        .addEventListener("change", setcardtype),
-      document
-        .querySelector("#slbooktime")
-        .addEventListener("change", setOtherPreferencesbooktime),
-      document
-        .querySelector("#acbooktime")
-        .addEventListener("change", setOtherPreferencesbooktime),
-      document
-        .querySelector("#mobileNumber")
-        .addEventListener("change", setMobileNumber),
-      document
-        .querySelector("#travelInsuranceOpted-1")
-        .addEventListener("change", setTravelPreferences),
-      document
-        .querySelector("#travelInsuranceOpted-2")
-        .addEventListener("change", setTravelPreferences),
-      document
-        .querySelector("#AvailabilityCheck-1")
-        .addEventListener("change", setAvailabilyCheck),
-      document
-        .querySelector("#AvailabilityCheck-2")
-        .addEventListener("change", setAvailabilyCheck),
-      document
-        .querySelector("#AvailabilityCheck-3")
-        .addEventListener("change", setAvailabilyCheck),
-      document
-        .querySelector("#tokenString")
-        .addEventListener("change", setTokenString),
-      document
-        .querySelector("#projectId")
-        .addEventListener("change", setprojectId),
+          .addEventListener("change", (t) => setPassengerDetails(t, e, "passenger"));
+    document.querySelector("#autoUpgradation").addEventListener("change", setOtherPreferences),
+      document.querySelector("#autoCaptcha").addEventListener("change", setAutoCaptcha),
+      document.querySelector("#confirmberths").addEventListener("change", setOtherPreferences),
+      document.querySelector("#vpa").addEventListener("change", setOtherPreferencesVpa),
+      document.querySelector("#cardnumber").addEventListener("change", setCardDetails),
+      document.querySelector("#cardexpiry").addEventListener("change", setCardDetails),
+      document.querySelector("#cardcvv").addEventListener("change", setCardDetails),
+      document.querySelector("#cardholder").addEventListener("change", setCardDetails),
+      document.querySelector("#paymentMethod").addEventListener("change", setpaymentMethod),
+      document.querySelector("#CaptchaSubmitMode").addEventListener("change", setCaptchaSubmitMode),
+      document.querySelector("#cardtype").addEventListener("change", setcardtype),
+      document.querySelector("#slbooktime").addEventListener("change", setOtherPreferencesbooktime),
+      document.querySelector("#acbooktime").addEventListener("change", setOtherPreferencesbooktime),
+      document.querySelector("#gnbooktime").addEventListener("change", setOtherPreferencesbooktime),
+      document.querySelector("#mobileNumber").addEventListener("change", setMobileNumber),
+      document.querySelector("#travelInsuranceOpted-1").addEventListener("change", setTravelPreferences),
+      document.querySelector("#travelInsuranceOpted-2").addEventListener("change", setTravelPreferences),
+      document.querySelector("#AvailabilityCheck-1").addEventListener("change", setAvailabilyCheck),
+      document.querySelector("#AvailabilityCheck-2").addEventListener("change", setAvailabilyCheck),
+      document.querySelector("#AvailabilityCheck-3").addEventListener("change", setAvailabilyCheck),
+      document.querySelector("#tokenString").addEventListener("change", setTokenString),
+      document.querySelector("#projectId").addEventListener("change", setprojectId),
       document.querySelector("#submit-btn").addEventListener("click", saveForm),
       document.querySelector("#load-btn-1").addEventListener("click", () => {
         buyPlan();
       }),
-      document
-        .querySelector("#clear-btn")
-        .addEventListener("click", () => clearData()),
-      document
-        .querySelector("#connect-btn")
-        .addEventListener("click", connectWithBg),
-      document
-        .querySelector("#showsubscriberpswd")
-        .addEventListener("click", showsubscriberpswd),
-      document
-        .querySelector("#showirctcpswd")
-        .addEventListener("click", showirctcpswd);
+      document.querySelector("#clear-btn").addEventListener("click", () => clearData()),
+      document.querySelector("#connect-btn").addEventListener("click", connectWithBg),
+      document.querySelector("#showsubscriberpswd").addEventListener("click", showsubscriberpswd),
+      document.querySelector("#showirctcpswd").addEventListener("click", showirctcpswd);
   });

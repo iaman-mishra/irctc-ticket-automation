@@ -64,12 +64,7 @@ chrome.runtime.onMessage.addListener((e, t, r) => {
       o = [...n.querySelectorAll(".tbis-div app-train-avl-enq")];
     console.log(user_data.journey_details["train-no"]);
     let s = user_data.journey_details["train-no"],
-      c = o.filter((e) =>
-        e
-          .querySelector("div.train-heading")
-          .innerText.trim()
-          .includes(s.split("-")[0])
-      )[0];
+      c = o.filter((e) => e.querySelector("div.train-heading").innerText.trim().includes(s.split("-")[0]))[0];
     if ("M" === user_data.travel_preferences.AvailabilityCheck) {
       alert("Please manually select train and click Book");
       return;
@@ -89,9 +84,7 @@ chrome.runtime.onMessage.addListener((e, t, r) => {
       }
       let d = classTranslator(user_data.journey_details.class);
       if (
-        ![...c.querySelectorAll("table tr td div.pre-avl")].filter(
-          (e) => e.querySelector("div").innerText === d
-        )[0]
+        ![...c.querySelectorAll("table tr td div.pre-avl")].filter((e) => e.querySelector("div").innerText === d)[0]
       ) {
         console.log("Precheck - Selected Class not available in the train."),
           alert(
@@ -105,17 +98,17 @@ chrome.runtime.onMessage.addListener((e, t, r) => {
       if (
         (console.log("Automatically click"),
         "TQ" === user_data.journey_details.quota ||
-          "PT" === user_data.journey_details.quota)
+          "PT" === user_data.journey_details.quota ||
+          "GN" === user_data.journey_details.quota)
       ) {
         console.log("Verify tatkal time");
         let p = user_data.journey_details.class;
         (requiredTime = "00:00:00"),
           (current_time = "00:00:00"),
-          (requiredTime = ["1A", "2A", "3A", "CC", "EC", "3E"].includes(
-            p.toUpperCase()
-          )
+          (requiredTime = ["1A", "2A", "3A", "CC", "EC", "3E"].includes(p.toUpperCase())
             ? user_data.other_preferences.acbooktime
             : user_data.other_preferences.slbooktime),
+          "GN" === user_data.journey_details.quota && (requiredTime = user_data.other_preferences.gnbooktime),
           console.log("requiredTime", requiredTime);
         var g = 0;
         let h = new MutationObserver((e) => {
@@ -130,16 +123,12 @@ chrome.runtime.onMessage.addListener((e, t, r) => {
               console.log("Inside wait counter 0 ");
               try {
                 let t = document.createElement("div");
-                (t.textContent =
-                  "Please wait..Booking will automatically start at " +
-                  requiredTime),
+                (t.textContent = "Please wait..Booking will automatically start at " + requiredTime),
                   (t.style.textAlign = "center"),
                   (t.style.color = "white"),
                   (t.style.height = "auto"),
                   (t.style.fontSize = "20px");
-                let r = document.querySelector(
-                  "#divMain > div > app-train-list > div> div > div > div.clearfix"
-                );
+                let r = document.querySelector("#divMain > div > app-train-list > div> div > div > div.clearfix");
                 r.insertAdjacentElement("afterend", t);
               } catch (l) {
                 console.log("wait time failed", l.message);
@@ -162,10 +151,8 @@ chrome.runtime.onMessage.addListener((e, t, r) => {
         h.observe(u, { childList: !0, subtree: !0, characterDataOldValue: !0 });
       } else console.log("select journey GENERAL quota"), selectJourney();
     } else
-      "I" === user_data.travel_preferences.AvailabilityCheck &&
-        (console.log("Immediately click"), selectJourney());
-  } else if ("fillPassengerDetails" === l)
-    console.log("fillPassengerDetails"), fillPassengerDetails();
+      "I" === user_data.travel_preferences.AvailabilityCheck && (console.log("Immediately click"), selectJourney());
+  } else if ("fillPassengerDetails" === l) console.log("fillPassengerDetails"), fillPassengerDetails();
   else if ("reviewBooking" === l) {
     console.log("reviewBooking");
     try {
@@ -173,10 +160,7 @@ chrome.runtime.onMessage.addListener((e, t, r) => {
     } catch (err) {
       console.error("Error:", err);
     }
-    if (
-      void 0 !== user_data.other_preferences.autoCaptcha &&
-      user_data.other_preferences.autoCaptcha
-    )
+    if (void 0 !== user_data.other_preferences.autoCaptcha && user_data.other_preferences.autoCaptcha)
       setTimeout(() => {
         getCaptchaTC();
       }, 500);
@@ -184,16 +168,12 @@ chrome.runtime.onMessage.addListener((e, t, r) => {
       console.log("Manuall captcha filling");
       let f = "X",
         m = document.querySelector("#captcha");
-      (m.value = f),
-        m.dispatchEvent(new Event("input")),
-        m.dispatchEvent(new Event("change")),
-        m.focus();
+      (m.value = f), m.dispatchEvent(new Event("input")), m.dispatchEvent(new Event("change")), m.focus();
     }
   } else if ("bkgPaymentOptions" === l) {
     addDelay(200), console.log("bkgPaymentOptions");
     let b = "Multiple Payment Service",
-      $ =
-        "Credit & Debit cards / Net Banking / Wallet / UPI (Powered by Paytm)";
+      $ = "Credit & Debit cards / Net Banking / Wallet / UPI (Powered by Paytm)";
     if (
       (console.log(""),
       void 0 !== user_data.vpa.vpa &&
@@ -204,17 +184,13 @@ chrome.runtime.onMessage.addListener((e, t, r) => {
       let S = window.navigator.userAgent;
       console.log("BrowserUserAgent", S),
         S.includes("Android")
-          ? (console.log("Android browser"),
-            ($ = "Credit & Debit cards / Wallet / UPI (Powered by PhonePe)"))
+          ? (console.log("Android browser"), ($ = "Credit & Debit cards / Wallet / UPI (Powered by PhonePe)"))
           : (console.log("Big screen browser"),
-            ($ =
-              "Credit & Debit cards / Net Banking / Wallet / UPI (Powered by Paytm)")),
+            ($ = "Credit & Debit cards / Net Banking / Wallet / UPI (Powered by Paytm)")),
         console.log("VPA");
     } else
       "IRCWA" == user_data.other_preferences.paymentmethod
-        ? ((b = "IRCTC eWallet"),
-          ($ = "IRCTC eWallet"),
-          console.log("irctc wallet"))
+        ? ((b = "IRCTC eWallet"), ($ = "IRCTC eWallet"), console.log("irctc wallet"))
         : ("DBTCRD" == user_data.other_preferences.paymentmethod ||
             "DBTCRDI" == user_data.other_preferences.paymentmethod) &&
           ((b = "Payment Gateway / Credit Card / Debit Card"),
@@ -232,11 +208,7 @@ chrome.runtime.onMessage.addListener((e, t, r) => {
               var e = document.getElementsByClassName("border-all no-pad");
               for (i = 0; i < e.length; i++)
                 0 != e[i].getBoundingClientRect().top &&
-                  -1 !=
-                    e[i]
-                      .getElementsByTagName("span")[0]
-                      .innerHTML.toUpperCase()
-                      .indexOf(C.toUpperCase()) &&
+                  -1 != e[i].getElementsByTagName("span")[0].innerHTML.toUpperCase().indexOf(C.toUpperCase()) &&
                   (e[i].click(),
                   setTimeout(() => {
                     document.getElementsByClassName("btn-primary")[0].click();
@@ -272,29 +244,19 @@ function getCaptcha() {
           !1
         ),
         (t.onload = function () {
-          if (200 != t.status)
-            console.log(`Error ${t.status}: ${t.statusText}`),
-              console.log(t.response);
+          if (200 != t.status) console.log(`Error ${t.status}: ${t.statusText}`), console.log(t.response);
           else {
             let e = "",
               r = document.querySelector("#captcha"),
               l = JSON.parse(t.response);
-            (e = l.responses[0].fullTextAnnotation.text),
-              console.log("Org text", e);
-            let n = Array.from(
-                e.split(" ").join("").replace(")", "J").replace("]", "J")
-              ),
+            (e = l.responses[0].fullTextAnnotation.text), console.log("Org text", e);
+            let n = Array.from(e.split(" ").join("").replace(")", "J").replace("]", "J")),
               o = "";
-            for (let s of n)
-              "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789=@".includes(
-                s
-              ) && (o += s);
+            for (let s of n) "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789=@".includes(s) && (o += s);
             (r.value = o),
               "" == e &&
                 (console.log("Null captcha text from api"),
-                document
-                  .getElementsByClassName("glyphicon glyphicon-repeat")[0]
-                  .parentElement.click(),
+                document.getElementsByClassName("glyphicon glyphicon-repeat")[0].parentElement.click(),
                 setTimeout(() => {
                   getCaptcha();
                 }, 500)),
@@ -302,9 +264,7 @@ function getCaptcha() {
               r.dispatchEvent(new Event("change")),
               r.focus();
             let c = document.querySelector("app-login"),
-              d = document.querySelector(
-                "#divMain > div > app-review-booking > p-toast"
-              ),
+              d = document.querySelector("#divMain > div > app-review-booking > p-toast"),
               u = new MutationObserver((e) => {
                 c &&
                   c.innerText.toLowerCase().includes("valid captcha") &&
@@ -369,28 +329,19 @@ function getCaptchaTC() {
         });
       t.open("POST", "https://api.apitruecaptcha.org/one/gettext", !1),
         (t.onload = function () {
-          if (200 != t.status)
-            console.log(`Error ${t.status}: ${t.statusText}`),
-              console.log(t.response);
+          if (200 != t.status) console.log(`Error ${t.status}: ${t.statusText}`), console.log(t.response);
           else {
             let e = "",
               r = document.querySelector("#captcha"),
               l = JSON.parse(t.response);
             (e = l.result), console.log("Org text", e);
-            let n = Array.from(
-                e.split(" ").join("").replace(")", "J").replace("]", "J")
-              ),
+            let n = Array.from(e.split(" ").join("").replace(")", "J").replace("]", "J")),
               o = "";
-            for (let s of n)
-              "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789=@".includes(
-                s
-              ) && (o += s);
+            for (let s of n) "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789=@".includes(s) && (o += s);
             (r.value = o),
               "" == e &&
                 (console.log("Null captcha text from api"),
-                document
-                  .getElementsByClassName("glyphicon glyphicon-repeat")[0]
-                  .parentElement.click(),
+                document.getElementsByClassName("glyphicon glyphicon-repeat")[0].parentElement.click(),
                 setTimeout(() => {
                   getCaptchaTC();
                 }, 500)),
@@ -398,9 +349,7 @@ function getCaptchaTC() {
               r.dispatchEvent(new Event("change")),
               r.focus();
             let c = document.querySelector("app-login"),
-              d = document.querySelector(
-                "#divMain > div > app-review-booking > p-toast"
-              ),
+              d = document.querySelector("#divMain > div > app-review-booking > p-toast"),
               u = new MutationObserver((e) => {
                 c &&
                   c.innerText.toLowerCase().includes("valid captcha") &&
@@ -438,29 +387,17 @@ function getCaptchaTC() {
               console.log("Auto submit captcha");
               let p = document.querySelector("#divMain > app-login");
               if (p) {
-                let g = p.querySelector(
-                    "button[type='submit'][class='search_btn train_Search']"
-                  ),
-                  h = p.querySelector(
-                    "input[type='text'][formcontrolname='userid']"
-                  ),
-                  y = p.querySelector(
-                    "input[type='password'][formcontrolname='password']"
-                  );
+                let g = p.querySelector("button[type='submit'][class='search_btn train_Search']"),
+                  h = p.querySelector("input[type='text'][formcontrolname='userid']"),
+                  y = p.querySelector("input[type='password'][formcontrolname='password']");
                 "" != h.value && "" != y.value
                   ? (console.log("Submit login info and captcha"),
                     setTimeout(() => {
                       g.click();
                     }, 500))
-                  : alert(
-                      "Unable to auto submit loging info, username and password not filled,please submit manually"
-                    );
+                  : alert("Unable to auto submit loging info, username and password not filled,please submit manually");
               }
-              if (
-                (reviewPage = document.querySelector(
-                  "#divMain > div > app-review-booking"
-                ))
-              ) {
+              if ((reviewPage = document.querySelector("#divMain > div > app-review-booking"))) {
                 console.log("reviewPage", reviewPage);
                 let v = document.querySelector("#captcha");
                 if ("" != v.value) {
@@ -468,30 +405,19 @@ function getCaptchaTC() {
                   f &&
                     setTimeout(() => {
                       if (
-                        (console.log(
-                          "Confirm berth",
-                          user_data.other_preferences.confirmberths
-                        ),
+                        (console.log("Confirm berth", user_data.other_preferences.confirmberths),
                         user_data.other_preferences.confirmberths)
                       ) {
-                        if (document.querySelector(".AVAILABLE"))
-                          console.log("Seats available"), f.click();
-                        else if (
-                          !0 ==
-                          confirm(
-                            "No seats Available, Do you still want to continue booking?"
-                          )
-                        )
-                          console.log("No Seats available, still Go ahead"),
-                            f.click();
+                        if (document.querySelector(".AVAILABLE")) console.log("Seats available"), f.click();
+                        else if (!0 == confirm("No seats Available, Do you still want to continue booking?"))
+                          console.log("No Seats available, still Go ahead"), f.click();
                         else {
                           console.log("No Seats available, STOP");
                           return;
                         }
                       } else f.click();
                     }, 500);
-                } else
-                  alert("Captcha automatically not filled, submit manually");
+                } else alert("Captcha automatically not filled, submit manually");
               }
             } else console.log("Manual captcha submission");
           }
@@ -519,8 +445,7 @@ function loadLoginDetails() {
     (r.value = user_data.irctc_credentials.password ?? ""),
     r.dispatchEvent(new Event("input")),
     r.dispatchEvent(new Event("change")),
-    void 0 !== user_data.other_preferences.autoCaptcha &&
-      user_data.other_preferences.autoCaptcha)
+    void 0 !== user_data.other_preferences.autoCaptcha && user_data.other_preferences.autoCaptcha)
   )
     setTimeout(() => {
       getCaptchaTC();
@@ -528,10 +453,7 @@ function loadLoginDetails() {
   else {
     console.log("Manuall captcha filling");
     let l = document.querySelector("#captcha");
-    (l.value = "X"),
-      l.dispatchEvent(new Event("input")),
-      l.dispatchEvent(new Event("change")),
-      l.focus();
+    (l.value = "X"), l.dispatchEvent(new Event("input")), l.dispatchEvent(new Event("change")), l.focus();
   }
 }
 function loadJourneyDetails() {
@@ -546,9 +468,7 @@ function loadJourneyDetails() {
     r.dispatchEvent(new Event("keydown")),
     r.dispatchEvent(new Event("input"));
   let l = e.querySelector("#jDate > span > input");
-  (l.value = user_data.journey_details.date
-    ? `${user_data.journey_details.date.split("-").reverse().join("/")}`
-    : ""),
+  (l.value = user_data.journey_details.date ? `${user_data.journey_details.date.split("-").reverse().join("/")}` : ""),
     l.dispatchEvent(new Event("keydown")),
     l.dispatchEvent(new Event("input"));
   let n = e.querySelector("#journeyClass"),
@@ -556,20 +476,14 @@ function loadJourneyDetails() {
   o.click(),
     addDelay(300),
     [...n.querySelectorAll("ul li")]
-      .filter(
-        (e) =>
-          e.innerText === classTranslator(user_data.journey_details.class) ?? ""
-      )[0]
+      .filter((e) => e.innerText === classTranslator(user_data.journey_details.class) ?? "")[0]
       ?.click(),
     addDelay(300);
   let s = e.querySelector("#journeyQuota"),
     c = s.querySelector("div > div[role='button']");
   c.click(),
     [...s.querySelectorAll("ul li")]
-      .filter(
-        (e) =>
-          e.innerText === quotaTranslator(user_data.journey_details.quota) ?? ""
-      )[0]
+      .filter((e) => e.innerText === quotaTranslator(user_data.journey_details.quota) ?? "")[0]
       ?.click(),
     addDelay(300);
   let d = e.querySelector("button.search_btn.train_Search[type='submit']");
@@ -581,33 +495,21 @@ function selectJourneyOld() {
     t = [...e.querySelectorAll(".tbis-div app-train-avl-enq")];
   console.log(user_data.journey_details["train-no"]);
   let r = t.filter((e) =>
-    e
-      .querySelector("div.train-heading")
-      .innerText.trim()
-      .includes(user_data.journey_details["train-no"])
+    e.querySelector("div.train-heading").innerText.trim().includes(user_data.journey_details["train-no"])
   )[0];
   if (!r) {
-    console.log("Train not found."),
-      alert("Train not found"),
-      statusUpdate("journey_selection_stopped.no_train");
+    console.log("Train not found."), alert("Train not found"), statusUpdate("journey_selection_stopped.no_train");
     return;
   }
   let l = classTranslator(user_data.journey_details.class),
     n = new Date(user_data.journey_details.date).toString().split(" "),
     o = { attributes: !1, childList: !0, subtree: !0 };
-  [...r.querySelectorAll("table tr td div.pre-avl")]
-    .filter((e) => e.querySelector("div").innerText === l)[0]
-    ?.click();
+  [...r.querySelectorAll("table tr td div.pre-avl")].filter((e) => e.querySelector("div").innerText === l)[0]?.click();
   let s = document.querySelector("#divMain > div > app-train-list > p-toast"),
     c = (e, t) => {
       console.log("Popup error"),
-        console.log(
-          "Class count ",
-          [...r.querySelectorAll("table tr td div.pre-avl")].length
-        ),
-        console.log("Class count ", [
-          ...r.querySelectorAll("table tr td div.pre-avl"),
-        ]),
+        console.log("Class count ", [...r.querySelectorAll("table tr td div.pre-avl")].length),
+        console.log("Class count ", [...r.querySelectorAll("table tr td div.pre-avl")]),
         s.innerText.includes("Unable to perform") &&
           (console.log("Unable to perform"),
           [...r.querySelectorAll("table tr td div.pre-avl")]
@@ -616,11 +518,9 @@ function selectJourneyOld() {
           t.disconnect());
     },
     d = (e, t) => {
-      let o = [
-          ...r.querySelectorAll(
-            "div p-tabmenu ul[role='tablist'] li[role='tab']"
-          ),
-        ].filter((e) => e.querySelector("div").innerText === l)[0],
+      let o = [...r.querySelectorAll("div p-tabmenu ul[role='tablist'] li[role='tab']")].filter(
+          (e) => e.querySelector("div").innerText === l
+        )[0],
         s = [...r.querySelectorAll("div div table td div.pre-avl")].filter(
           (e) => e.querySelector("div").innerText === `${n[0]}, ${n[2]} ${n[1]}`
         )[0],
@@ -648,9 +548,7 @@ function retrySelectJourney() {
 }
 function selectJourney() {
   let e = setInterval(() => {
-    let t = document.querySelector(
-        "#divMain > div > app-train-list > p-toast > div > p-toastitem > div > div > a"
-      ),
+    let t = document.querySelector("#divMain > div > app-train-list > p-toast > div > p-toastitem > div > div > a"),
       r = document.querySelector(
         "body > app-root > app-home > div.header-fix > app-header > p-toast > div > p-toastitem > div > div > a"
       ),
@@ -679,39 +577,22 @@ function selectJourney() {
     l = user_data.journey_details["train-no"],
     n = classTranslator(user_data.journey_details.class),
     o = new Date(user_data.journey_details.date),
-    s =
-      o.toDateString().split(" ")[0] +
-      ", " +
-      o.toDateString().split(" ")[2] +
-      " " +
-      o.toDateString().split(" ")[1];
-  console.log("Train Number:", l),
-    console.log("Class:", n),
-    console.log("date", s);
-  let c = r.find((e) =>
-    e
-      .querySelector("div.train-heading")
-      .innerText.trim()
-      .includes(l.split("-")[0])
-  );
+    s = o.toDateString().split(" ")[0] + ", " + o.toDateString().split(" ")[2] + " " + o.toDateString().split(" ")[1];
+  console.log("Train Number:", l), console.log("Class:", n), console.log("date", s);
+  let c = r.find((e) => e.querySelector("div.train-heading").innerText.trim().includes(l.split("-")[0]));
   if (!c) {
-    console.error("Train not found."),
-      statusUpdate("journey_selection_stopped.no_train");
+    console.error("Train not found."), statusUpdate("journey_selection_stopped.no_train");
     return;
   }
   let d = (e) => {
       if (!e) return !1;
       let t = window.getComputedStyle(e);
-      return (
-        "none" !== t.display && "hidden" !== t.visibility && "0" !== t.opacity
-      );
+      return "none" !== t.display && "hidden" !== t.visibility && "0" !== t.opacity;
     },
     u = Array.from(c.querySelectorAll("table tr td div.pre-avl")).find(
       (e) => e.querySelector("div").innerText.trim() === n
     ),
-    p = Array.from(c.querySelectorAll("span")).find(
-      (e) => e.innerText.trim() === n
-    ),
+    p = Array.from(c.querySelectorAll("span")).find((e) => e.innerText.trim() === n),
     g = u || p;
   if ((console.log("FOUND updatedClassToClick:", g), !g)) {
     console.error("Class to click not found.");
@@ -728,34 +609,25 @@ function selectJourney() {
       console.log("Mutation observed at", new Date().toLocaleTimeString()),
         clearTimeout(y),
         (y = setTimeout(() => {
-          let e = Array.from(
-            c.querySelectorAll("div div table td div.pre-avl")
-          ).find((e) => e.querySelector("div").innerText.trim() === s);
+          let e = Array.from(c.querySelectorAll("div div table td div.pre-avl")).find(
+            (e) => e.querySelector("div").innerText.trim() === s
+          );
           console.log("FOUND classTabToSelect:", e),
             e
               ? (e.click(),
                 console.log("Clicked on selectdate"),
                 setTimeout(() => {
                   let e = () => {
-                    let r = c.querySelector(
-                        "button.btnDefault.train_Search.ng-star-inserted"
-                      ),
+                    let r = c.querySelector("button.btnDefault.train_Search.ng-star-inserted"),
                       l = d(document.querySelector("#loaderP"));
                     if (l) {
-                      console.warn("Loader is visible, retrying..."),
-                        setTimeout(e, 100);
+                      console.warn("Loader is visible, retrying..."), setTimeout(e, 100);
                       return;
                     }
                     !r || r.classList.contains("disable-book") || r.disabled
-                      ? (console.warn(
-                          "bookBtn is disabled or not found, retrying..."
-                        ),
-                        retrySelectJourney())
+                      ? (console.warn("bookBtn is disabled or not found, retrying..."), retrySelectJourney())
                       : setTimeout(() => {
-                          r.click(),
-                            console.log("Clicked on bookBtn"),
-                            clearTimeout(y),
-                            t.disconnect();
+                          r.click(), console.log("Clicked on bookBtn"), clearTimeout(y), t.disconnect();
                         }, 300);
                   };
                   e();
@@ -767,24 +639,15 @@ function selectJourney() {
   f.observe(c, { attributes: !1, childList: !0, subtree: !0 });
 }
 function fillPassengerDetails() {
-  if (
-    (console.log("passenger_filling_started"),
-    user_data.journey_details.boarding.length > 0)
-  ) {
+  if ((console.log("passenger_filling_started"), user_data.journey_details.boarding.length > 0)) {
     console.log("Set boarding station " + user_data.journey_details.boarding);
     let e = document.getElementsByTagName("strong"),
       t = Array.from(e).filter((e) =>
-        e.innerText.includes(
-          user_data.journey_details.from.split("-")[0].trim() + " | "
-        )
+        e.innerText.includes(user_data.journey_details.from.split("-")[0].trim() + " | ")
       );
     t[0] && (t[0].click(), addDelay(300));
     let r = document.getElementsByTagName("strong"),
-      l = Array.from(r).filter((e) =>
-        e.innerText.includes(
-          user_data.journey_details.boarding.split("-")[0].trim()
-        )
-      );
+      l = Array.from(r).filter((e) => e.innerText.includes(user_data.journey_details.boarding.split("-")[0].trim()));
     l[0] && l[0].click();
   }
   let n = document.querySelector("app-passenger-input"),
@@ -797,33 +660,22 @@ function fillPassengerDetails() {
     user_data.passenger_details.forEach((e, t) => {
       let r = s[t].querySelector("p-autocomplete > span > input");
       (r.value = e.name), r.dispatchEvent(new Event("input"));
-      let l = s[t].querySelector(
-        "input[type='number'][formcontrolname='passengerAge']"
-      );
+      let l = s[t].querySelector("input[type='number'][formcontrolname='passengerAge']");
       (l.value = e.age), l.dispatchEvent(new Event("input"));
       let n = s[t].querySelector("select[formcontrolname='passengerGender']");
       (n.value = e.gender), n.dispatchEvent(new Event("change"));
-      let o = s[t].querySelector(
-        "select[formcontrolname='passengerBerthChoice']"
-      );
+      let o = s[t].querySelector("select[formcontrolname='passengerBerthChoice']");
       (o.value = e.berth), o.dispatchEvent(new Event("change"));
-      let c = s[t].querySelector(
-        "select[formcontrolname='passengerFoodChoice']"
-      );
+      let c = s[t].querySelector("select[formcontrolname='passengerFoodChoice']");
       c && ((c.value = e.food), c.dispatchEvent(new Event("change")));
     }),
     "" !== user_data.other_preferences.mobileNumber)
   ) {
-    let c = n.querySelector(
-      "input#mobileNumber[formcontrolname='mobileNumber'][name='mobileNumber']"
-    );
-    (c.value = user_data.other_preferences.mobileNumber),
-      c.dispatchEvent(new Event("input"));
+    let c = n.querySelector("input#mobileNumber[formcontrolname='mobileNumber'][name='mobileNumber']");
+    (c.value = user_data.other_preferences.mobileNumber), c.dispatchEvent(new Event("input"));
   }
   let d = [
-    ...n.querySelectorAll(
-      "p-radiobutton[formcontrolname='paymentType'][name='paymentType'] input[type='radio']"
-    ),
+    ...n.querySelectorAll("p-radiobutton[formcontrolname='paymentType'][name='paymentType'] input[type='radio']"),
   ];
   addDelay(100);
   let u = "2";
@@ -840,13 +692,9 @@ function fillPassengerDetails() {
           ? "1"
           : "2")
   )[0]?.click();
-  let p = n.querySelector(
-    "input#autoUpgradation[type='checkbox'][formcontrolname='autoUpgradationSelected']"
-  );
+  let p = n.querySelector("input#autoUpgradation[type='checkbox'][formcontrolname='autoUpgradationSelected']");
   p && (p.checked = user_data.other_preferences.autoUpgradation ?? !1);
-  let g = n.querySelector(
-    "input#confirmberths[type='checkbox'][formcontrolname='bookOnlyIfCnf']"
-  );
+  let g = n.querySelector("input#confirmberths[type='checkbox'][formcontrolname='bookOnlyIfCnf']");
   g && (g.checked = user_data.other_preferences.confirmberths ?? !1);
   let h = [
     ...n.querySelectorAll(
@@ -855,22 +703,14 @@ function fillPassengerDetails() {
   ];
   addDelay(200),
     h
-      .filter(
-        (e) =>
-          e.value ===
-          ("yes" === user_data.travel_preferences.travelInsuranceOpted
-            ? "true"
-            : "false")
-      )[0]
+      .filter((e) => e.value === ("yes" === user_data.travel_preferences.travelInsuranceOpted ? "true" : "false"))[0]
       ?.click(),
     submitPassengerDetailsForm(n);
 }
 function submitPassengerDetailsForm(e) {
   console.log("passenger_filling_completed"),
     setTimeout(() => {
-      e.querySelector(
-        "#psgn-form > form div > button.train_Search.btnDefault[type='submit']"
-      )?.click();
+      e.querySelector("#psgn-form > form div > button.train_Search.btnDefault[type='submit']")?.click();
     }, 800);
 }
 function continueScript() {
@@ -879,10 +719,8 @@ function continueScript() {
   );
   window.location.href.includes("train-search")
     ? ("LOGOUT" === e.innerText.trim().toUpperCase() && loadJourneyDetails(),
-      "LOGIN" === e.innerText.trim().toUpperCase() &&
-        (e.click(), loadLoginDetails()))
-    : window.location.href.includes("nget/booking/train-list") ||
-      console.log("Nothing to do");
+      "LOGIN" === e.innerText.trim().toUpperCase() && (e.click(), loadLoginDetails()))
+    : window.location.href.includes("nget/booking/train-list") || console.log("Nothing to do");
 }
 async function a() {
   apikey = "abcd1234";
@@ -940,9 +778,7 @@ window.onload = function (e) {
         (e) =>
           "childList" === e.type &&
           e.addedNodes.length > 0 &&
-          [...e.addedNodes].filter(
-            (e) => "LOGOUT" === e?.innerText?.trim()?.toUpperCase()
-          ).length > 0
+          [...e.addedNodes].filter((e) => "LOGOUT" === e?.innerText?.trim()?.toUpperCase()).length > 0
       ).length > 0
         ? (r.disconnect(), loadJourneyDetails())
         : (t.click(), loadLoginDetails());
